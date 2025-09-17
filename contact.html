@@ -27,16 +27,31 @@
   </header>
   <main class="container">
 
-<section class="glass">
-  <h1 class="page-title">Contact</h1>
-  <form class="form" action="https://formspree.io/f/your-id-here" method="POST">
-    <label>Name<input name="name" required></label>
-    <label>Email<input type="email" name="email" required></label>
-    <label>Message<textarea name="message" rows="5" required></textarea></label>
-    <button class="btn primary" type="submit">Send</button>
-    <p class="muted small">(Swap the Formspree URL with your own endpoint when ready.)</p>
-  </form>
-</section>
+    <section class="glass">
+      <h1 class="page-title">Contact</h1>
+
+      <!-- ✅ Your Formspree endpoint is set here -->
+      <form class="form" action="https://formspree.io/f/mandgbdo" method="POST">
+        <label>Name
+          <input name="name" required>
+        </label>
+        <label>Email
+          <input type="email" name="email" required>
+        </label>
+        <label>Message
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+
+        <!-- Optional niceties -->
+        <input type="hidden" name="_subject" value="LG2YT Website Contact" />
+        <input type="text" name="_honeypot" style="display:none" tabindex="-1" autocomplete="off" />
+
+        <button class="btn primary" type="submit">Send</button>
+        <p class="muted small">
+          This form is powered by Formspree. After you hit send, you’ll see a confirmation page.
+        </p>
+      </form>
+    </section>
 
   </main>
   <footer class="footer">
