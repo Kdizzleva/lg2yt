@@ -18,22 +18,28 @@
     </div>
     <nav>
       <a href="index.html">Home</a>
-      <a href="videos.html">Videos</a>
+      <a href="videos.html" class="active">Videos</a>
       <a href="blog.html">Let's Go To Eat</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <a class="pill" href="shop.html">Shop</a>
     </nav>
   </header>
+
   <main class="container">
+    <section class="hero glass" id="featured"></section>
 
-<section>
-  <h1 class="page-title">Videos</h1>
-  <p class="muted">Curated list from your channel. Add/remove IDs in <code>assets/js/config.js</code>.</p>
-  <div id="video-grid" class="grid videos"></div>
-</section>
+    <section>
+      <h1 class="page-title">Latest Videos</h1>
+      <div id="video-grid" class="grid"></div>
+    </section>
 
+    <section id="watchlist-section" style="display:none;">
+      <h2 class="page-title" style="margin-top:28px">Watch Next</h2>
+      <div id="watchlist" class="grid"></div>
+    </section>
   </main>
+
   <footer class="footer">
     <p>© 2025 Let’s Go To… • #LetsGoToCrew</p>
     <div class="socials">
@@ -43,7 +49,123 @@
       <a id="x" target="_blank">X</a>
     </div>
   </footer>
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/main.js"></script>
+
+  <script>
+  (async function(){
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSziN8EwaEBgx5c1BtKRThZycM8JDjxISm_Irsr-ji0eKGoO0POxS2L5rJUUMY496fAO3rm8GutyyTo/pub?gid=0&single=true&output=csv";
+
+    const res = await fetch(CSV_URL, { cache: "no-store" });
+    const text = await res.text();
+
+    // Parse CSV
+    const rows = text.replace(/\r/g,"").split("\n").map(r => r.split(","));
+    const header = rows.shift().map(h => h.trim());
+
+    // Map header indexes
+    const col = {
+      Title: header.indexOf("Title"),
+      URL: header.indexOf("vid url"),
+      ID: header.indexOf("YouTubeID"),
+      Category: header.indexOf("Category"),
+      Region: header.indexOf("Region"),
+      State: header.indexOf("State"),
+      Park: header.indexOf("Park"),
+      SubPark: header.indexOf("SubPark"),
+      Tags: header.indexOf("Tags (auto-generated)"),
+      Slug: header.indexOf("Slug"),
+      Published: header.indexOf("Published"),
+      Featured: header.indexOf("Featured"),
+      Watchlist: header.indexOf("Watchlist"),
+      SortKey: header.indexOf("SortKey"),
+    };
+
+    // Normalize rows
+    const items = rows
+      .filter(r => r.length && r.some(x => x && x.trim() !== ""))
+      .map(r => {
+        const val = (i) => (i >= 0 ? (r[i] || "").trim() : "");
+        const bool = (i) => (val(i).toUpperCase() === "TRUE");
+        return {
+          title: val(col.Title),
+          url: val(col.URL),
+          id: val(col.ID),
+          category: val(col.Category),
+          region: val(col.Region),
+          state: val(col.State),
+          park: val(col.Park),
+          subpark: val(col.SubPark),
+          tags: val(col.Tags),
+          slug: val(col.Slug),
+          published: val(col.Published),
+          featured: bool(col.Featured),
+          watchlist: bool(col.Watchlist),
+          sortKey: Number(val(col.SortKey) || 999999999)
+        };
+      })
+      .filter(v => v.id);
+
+    // Sort
+    items.sort((a,b) => a.sortKey - b.sortKey);
+
+    // FEATURED
+    const featured = items.find(v => v.featured) || items[0];
+    if (featured) {
+      document.getElementById("featured").innerHTML = `
+        <h1 class="title">Featured</h1>
+        <div class="ratio" style="max-width:900px;margin:14px auto;border-radius:14px;overflow:hidden">
+          <iframe width="100%" height="506"
+            src="https://www.youtube.com/embed/${featured.id}"
+            title="${featured.title}"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+        <p class="subtitle">${featured.title}</p>
+        ${featured.published ? `<p class="subtitle">Published: ${featured.published}</p>` : ""}
+      `;
+    }
+
+    // LATEST
+    const grid = document.getElementById("video-grid");
+    items
+      .filter(v => !featured || v.id !== featured.id)
+      .slice(0, 12)
+      .forEach(v => {
+        const el = document.createElement("article");
+        el.className = "card";
+        el.innerHTML = `
+          <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
+            <div class="ratio">
+              <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <h3 style="margin:.6rem 0 0;color:#ff4fd8">${v.title}</h3>
+            ${v.published ? `<p class="subtitle">${v.published}</p>` : ""}
+          </a>
+        `;
+        grid.appendChild(el);
+      });
+
+    // WATCHLIST
+    const wl = items.filter(v => v.watchlist);
+    if (wl.length) {
+      document.getElementById("watchlist-section").style.display = "";
+      const wrap = document.getElementById("watchlist");
+      wl.forEach(v => {
+        const el = document.createElement("article");
+        el.className = "card";
+        el.innerHTML = `
+          <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
+            <div class="ratio">
+              <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <h3 style="margin:.6rem 0 0;color:#2de2e6">${v.title}</h3>
+          </a>
+        `;
+        wrap.appendChild(el);
+      });
+    }
+  })();
+  </script>
 </body>
 </html>
