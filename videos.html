@@ -77,95 +77,143 @@
       Featured: header.indexOf("Featured"),
       Watchlist: header.indexOf("Watchlist"),
       SortKey: header.indexOf("SortKey"),
-    };
+    };<script>
+(async function(){
+  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSziN8EwaEBgx5c1BtKRThZycM8JDjxISm_Irsr-ji0eKGoO0POxS2L5rJUUMY496fAO3rm8GutyyTo/pub?gid=0&single=true&output=csv";
 
-    // Normalize rows
-    const items = rows
-      .filter(r => r.length && r.some(x => x && x.trim() !== ""))
-      .map(r => {
-        const val = (i) => (i >= 0 ? (r[i] || "").trim() : "");
-        const bool = (i) => (val(i).toUpperCase() === "TRUE");
-        return {
-          title: val(col.Title),
-          url: val(col.URL),
-          id: val(col.ID),
-          category: val(col.Category),
-          region: val(col.Region),
-          state: val(col.State),
-          park: val(col.Park),
-          subpark: val(col.SubPark),
-          tags: val(col.Tags),
-          slug: val(col.Slug),
-          published: val(col.Published),
-          featured: bool(col.Featured),
-          watchlist: bool(col.Watchlist),
-          sortKey: Number(val(col.SortKey) || 999999999)
-        };
-      })
-      .filter(v => v.id);
+  // Robust CSV parser (handles quotes, commas, newlines)
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], cur = "", inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i], n = text[i+1];
+      if (inQuotes) {
+        if (c === '"' && n === '"') { cur += '"'; i++; }        // escaped quote ""
+        else if (c === '"') { inQuotes = false; }
+        else { cur += c; }
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',' ) { row.push(cur); cur = ""; }
+        else if (c === '\n') { row.push(cur); rows.push(row); row = []; cur = ""; }
+        else if (c === '\r') { /* ignore */ }
+        else { cur += c; }
+      }
+    }
+    if (cur.length || row.length) { row.push(cur); rows.push(row); }
+    return rows;
+  }
 
-    // Sort
-    items.sort((a,b) => a.sortKey - b.sortKey);
+  const res = await fetch(CSV_URL, { cache: "no-store" });
+  let text = await res.text();
+  text = text.replace(/^\uFEFF/, ""); // strip BOM if present
 
-    // FEATURED
-    const featured = items.find(v => v.featured) || items[0];
-    if (featured) {
-      document.getElementById("featured").innerHTML = `
-        <h1 class="title">Featured</h1>
-        <div class="ratio" style="max-width:900px;margin:14px auto;border-radius:14px;overflow:hidden">
-          <iframe width="100%" height="506"
-            src="https://www.youtube.com/embed/${featured.id}"
-            title="${featured.title}"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen></iframe>
-        </div>
-        <p class="subtitle">${featured.title}</p>
-        ${featured.published ? `<p class="subtitle">Published: ${featured.published}</p>` : ""}
+  const rows = parseCSV(text);
+  if (!rows.length) return;
+  const header = rows.shift().map(h => h.trim());
+
+  // Map header indexes (using your exact labels)
+  const col = {
+    Title: header.indexOf("Title"),
+    URL: header.indexOf("vid url"),
+    ID: header.indexOf("YouTubeID"),
+    Category: header.indexOf("Category"),
+    Region: header.indexOf("Region"),
+    State: header.indexOf("State"),
+    Park: header.indexOf("Park"),
+    SubPark: header.indexOf("SubPark"),
+    Tags: header.indexOf("Tags (auto-generated)"),
+    Slug: header.indexOf("Slug"),
+    Published: header.indexOf("Published"),
+    Featured: header.indexOf("Featured"),
+    Watchlist: header.indexOf("Watchlist"),
+    SortKey: header.indexOf("SortKey"),
+  };
+
+  const val = (r, i) => (i >= 0 ? (r[i] || "").trim() : "");
+  const bool = (r, i) => (val(r, i).toUpperCase() === "TRUE");
+
+  const items = rows
+    .filter(r => r.some(x => (x || "").trim() !== ""))
+    .map(r => ({
+      title:     val(r, col.Title),
+      url:       val(r, col.URL),
+      id:        val(r, col.ID),
+      category:  val(r, col.Category),
+      region:    val(r, col.Region),
+      state:     val(r, col.State),
+      park:      val(r, col.Park),
+      subpark:   val(r, col.SubPark),
+      tags:      val(r, col.Tags),
+      slug:      val(r, col.Slug),
+      published: val(r, col.Published),
+      featured:  bool(r, col.Featured),
+      watchlist: bool(r, col.Watchlist),
+      sortKey:   Number(val(r, col.SortKey) || 999999999)
+    }))
+    .filter(v => v.id);
+
+  // Sort by SortKey ASC (featured first, then newest)
+  items.sort((a,b) => a.sortKey - b.sortKey);
+
+  // FEATURED
+  const featured = items.find(v => v.featured) || items[0];
+  if (featured) {
+    document.getElementById("featured").innerHTML = `
+      <h1 class="title">Featured</h1>
+      <div class="ratio" style="max-width:900px;margin:14px auto;border-radius:14px;overflow:hidden">
+        <iframe width="100%" height="506"
+          src="https://www.youtube.com/embed/${featured.id}"
+          title="${featured.title.replace(/"/g,"&quot;")}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <p class="subtitle">${featured.title}</p>
+      ${featured.published && featured.published !== "#NAME?" ? `<p class="subtitle">Published: ${featured.published}</p>` : ""}
+    `;
+  }
+
+  // LATEST GRID
+  const grid = document.getElementById("video-grid");
+  items
+    .filter(v => !featured || v.id !== featured.id)
+    .slice(0, 12)
+    .forEach(v => {
+      const el = document.createElement("article");
+      el.className = "card";
+      el.innerHTML = `
+        <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
+          <div class="ratio">
+            <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title.replace(/"/g,"&quot;")}" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <h3 style="margin:.6rem 0 0;color:#ff4fd8">${v.title}</h3>
+          ${v.published && v.published !== "#NAME?" ? `<p class="subtitle">${v.published}</p>` : ""}
+        </a>
       `;
-    }
+      grid.appendChild(el);
+    });
 
-    // LATEST
-    const grid = document.getElementById("video-grid");
-    items
-      .filter(v => !featured || v.id !== featured.id)
-      .slice(0, 12)
-      .forEach(v => {
-        const el = document.createElement("article");
-        el.className = "card";
-        el.innerHTML = `
-          <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
-            <div class="ratio">
-              <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" style="width:100%;height:100%;object-fit:cover">
-            </div>
-            <h3 style="margin:.6rem 0 0;color:#ff4fd8">${v.title}</h3>
-            ${v.published ? `<p class="subtitle">${v.published}</p>` : ""}
-          </a>
-        `;
-        grid.appendChild(el);
-      });
-
-    // WATCHLIST
-    const wl = items.filter(v => v.watchlist);
-    if (wl.length) {
-      document.getElementById("watchlist-section").style.display = "";
-      const wrap = document.getElementById("watchlist");
-      wl.forEach(v => {
-        const el = document.createElement("article");
-        el.className = "card";
-        el.innerHTML = `
-          <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
-            <div class="ratio">
-              <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" style="width:100%;height:100%;object-fit:cover">
-            </div>
-            <h3 style="margin:.6rem 0 0;color:#2de2e6">${v.title}</h3>
-          </a>
-        `;
-        wrap.appendChild(el);
-      });
-    }
-  })();
-  </script>
+  // WATCHLIST
+  const wl = items.filter(v => v.watchlist);
+  if (wl.length) {
+    document.getElementById("watchlist-section").style.display = "";
+    const wrap = document.getElementById("watchlist");
+    wl.forEach(v => {
+      const el = document.createElement("article");
+      el.className = "card";
+      el.innerHTML = `
+        <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
+          <div class="ratio">
+            <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title.replace(/"/g,"&quot;")}" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <h3 style="margin:.6rem 0 0;color:#2de2e6">${v.title}</h3>
+        </a>
+      `;
+      wrap.appendChild(el);
+    });
+  }
+})();
+</script>
 </body>
 </html>
