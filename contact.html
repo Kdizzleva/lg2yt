@@ -3,19 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Let's Go To... (LG2YT)</title>
-  <meta name="description" content="Food • Travel • Theme Parks — Let's Go To…"/>
-
-  <!-- Favicon + Social preview -->
-  <link rel="icon" type="image/png" href="assets/img/favicon.png">
-  <meta property="og:title" content="Let's Go To… | Food • Travel • Theme Parks">
-  <meta property="og:description" content="Neon nights, budget hacks, and big thrills. Come join the #LetsGoToCrew!">
-  <meta property="og:image" content="https://kdizzleva.github.io/lg2yt/assets/img/social-preview.jpg">
-  <meta property="og:url" content="https://kdizzleva.github.io/lg2yt/">
-  <meta name="twitter:card" content="summary_large_image">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <title>Contact • LG2</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,7 +18,7 @@
       <a href="videos.html">Videos</a>
       <a href="blog.html">Let's Go To Eat</a>
       <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="contact.html" class="active">Contact</a>
       <a class="pill" href="shop.html">Shop</a>
     </nav>
   </header>
@@ -39,40 +27,24 @@
     <section class="glass">
       <h1 class="page-title">Contact</h1>
 
-      <!-- ✅ Correct: ONE form, with redirect/subject/honeypot inside -->
       <form class="form" action="https://formspree.io/f/mandgbdo" method="POST">
-        <label>Name
-          <input name="name" required>
-        </label>
-        <label>Email
-          <input type="email" name="email" required>
-        </label>
-        <label>Message
-          <textarea name="message" rows="5" required></textarea>
-        </label>
-
-        <!-- redirect to thank-you page -->
-        <input type="hidden" name="_redirect" value="https://kdizzleva.github.io/lg2yt/thanks.html">
-        <!-- optional niceties -->
-        <input type="hidden" name="_subject" value="LG2YT Website Contact" />
-        <input type="text" name="_honeypot" style="display:none" tabindex="-1" autocomplete="off" />
-
+        <label>Name <input name="name" required></label>
+        <label>Email <input type="email" name="email" required></label>
+        <label>Message <textarea name="message" rows="6" required></textarea></label>
+        <input type="hidden" name="_redirect" value="https://lg2yt.com/thanks.html">
+        <input type="hidden" name="_subject" value="LG2YT Website Contact"/>
+        <input type="text" name="_honeypot" style="display:none" tabindex="-1" autocomplete="off"/>
         <button class="btn primary" type="submit">Send</button>
-        <p class="muted small">This form is powered by Formspree. After you hit send, you’ll see a confirmation page.</p>
+        <p class="muted small">Powered by Formspree.</p>
       </form>
     </section>
   </main>
 
   <footer class="footer">
     <p>© 2025 Let’s Go To… • #LetsGoToCrew</p>
-    <div class="socials">
-      <a id="yt" target="_blank">YouTube</a>
-      <a id="ig" target="_blank">Instagram</a>
-      <a id="fb" target="_blank">Facebook</a>
-      <a id="x" target="_blank">X</a>
-    </div>
   </footer>
-
+</body>
+</html>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
