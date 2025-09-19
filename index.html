@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Let's Go To... (LG2YT)</title>
+  <title>LG2 — Let’s Go To…</title>
   <meta name="description" content="Food • Travel • Theme Parks — Let's Go To…"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="noise"></div>
+
   <header class="nav">
     <div class="logo">
       <img id="site-logo" src="assets/img/lg2-logo.jpeg" alt="LG2 Logo"/>
       <span class="glow">LG2</span><span class="dot">.</span><span class="tag">Let's Go To…</span>
     </div>
     <nav>
-      <a href="index.html">Home</a>
+      <a href="index.html" class="active">Home</a>
       <a href="videos.html">Videos</a>
       <a href="blog.html">Let's Go To Eat</a>
       <a href="about.html">About</a>
@@ -25,35 +26,19 @@
       <a class="pill" href="shop.html">Shop</a>
     </nav>
   </header>
+
   <main class="container">
+    <section class="hero glass" id="featured"></section>
 
-<section class="hero glass">
-  <h1 class="title">Food • Travel • Theme Parks</h1>
-  <p class="subtitle">Neon nights, budget hacks, and big thrills. Welcome to <strong>Let's Go To…</strong></p>
-  <div class="cta">
-    <a class="btn primary" href="videos.html">Watch Videos</a>
-    <a class="btn" href="blog.html">Read the Blog</a>
-  </div>
-</section>
-
-<section class="grid">
-  <article class="card">
-    <h3>Latest Video</h3>
-    <div id="latest-video" class="ratio"></div>
-  </article>
-  <article class="card">
-    <h3>Newest Post</h3>
-    <div id="latest-post" class="post-skeleton"></div>
-    <p class="muted">Connect a Google Sheet (steps in README) and your latest post will show here.</p>
-  </article>
-  <article class="card">
-    <h3>Join the Crew</h3>
-    <p>Get early videos, exclusive posts, and more.</p>
-    <a class="btn" id="crew-link" target="_blank">Join #LetsGoToCrew</a>
-  </article>
-</section>
-
+    <section>
+      <h2 class="page-title">Latest Videos</h2>
+      <div id="latest-grid" class="grid"></div>
+      <div style="text-align:center;margin-top:18px">
+        <a class="btn primary" href="videos.html">See all videos</a>
+      </div>
+    </section>
   </main>
+
   <footer class="footer">
     <p>© 2025 Let’s Go To… • #LetsGoToCrew</p>
     <div class="socials">
@@ -63,7 +48,78 @@
       <a id="x" target="_blank">X</a>
     </div>
   </footer>
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/main.js"></script>
+
+  <script>
+  (async function () {
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSziN8EwaEBgx5c1BtKRThZycM8JDjxISm_Irsr-ji0eKGoO0POxS2L5rJUUMY496fAO3rm8GutyyTo/pub?gid=0&single=true&output=csv";
+
+    function parseCSV(text){
+      const rows=[];let row=[],cur="",q=false;
+      for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1];
+        if(q){if(c=='"'&&n=='"'){cur+='"';i++;}else if(c=='"'){q=false;}else{cur+=c;}}
+        else{if(c=='"'){q=true;}else if(c==','){row.push(cur);cur="";}
+        else if(c=='\n'){row.push(cur);rows.push(row);row=[];cur="";}
+        else if(c!='\r'){cur+=c;}}
+      }
+      if(cur.length||row.length){row.push(cur);rows.push(row);} return rows;
+    }
+    const norm = s => (s||"").toLowerCase().replace(/\s+/g," ").trim().replace(/[^a-z0-9]/g,"");
+    const findIdx=(h,...keys)=>{const H=h.map(norm);for(const k of keys){const i=H.indexOf(k);if(i>-1)return i;}return -1;}
+
+    try{
+      const res=await fetch(CSV_URL+(CSV_URL.includes("?")?"&":"?")+"t="+Date.now(),{cache:"no-store"});
+      let text=await res.text(); text=text.replace(/^\uFEFF/,"");
+      const rows=parseCSV(text); if(!rows.length) throw new Error("CSV empty");
+      const header=rows.shift().map(h=>h.trim());
+
+      const col={
+        Title:findIdx(header,"title"),
+        URL:findIdx(header,"vidurl","url"),
+        ID:findIdx(header,"youtubeid","id"),
+        Published:findIdx(header,"published","date"),
+        Featured:findIdx(header,"featured"),
+        SortKey:findIdx(header,"sortkey")
+      };
+
+      const val=(r,i)=> i>=0 ? (r[i]||"").trim() : "";
+      const bool=(r,i)=> val(r,i).toUpperCase()==="TRUE";
+
+      const items=rows.filter(r=>r.some(x=>(x||"").trim()!==""))
+        .map(r=>({title:val(r,col.Title), id:val(r,col.ID), published:val(r,col.Published),
+                  featured:bool(r,col.Featured), sortKey:Number(val(r,col.SortKey)||999999999)}))
+        .filter(v=>v.id).sort((a,b)=>a.sortKey-b.sortKey);
+
+      const featured = items.find(v=>v.featured) || items[0];
+      if(featured){
+        document.getElementById("featured").innerHTML = `
+          <h1 class="title">Featured</h1>
+          <div class="ratio" style="max-width:900px;margin:14px auto;border-radius:14px;overflow:hidden">
+            <iframe width="100%" height="506" src="https://www.youtube.com/embed/${featured.id}"
+              title="${featured.title.replace(/"/g,"&quot;")}" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <p class="subtitle">${featured.title}</p>
+          ${featured.published && featured.published!="#NAME?" ? `<p class="subtitle">Published: ${featured.published}</p>` : ``}
+        `;
+      }
+
+      const grid=document.getElementById("latest-grid");
+      items.filter(v=>!featured || v.id!==featured.id).slice(0,6).forEach(v=>{
+        const el=document.createElement("article"); el.className="card";
+        el.innerHTML = `
+          <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
+            <div class="ratio"><img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title.replace(/"/g,"&quot;")}" style="width:100%;height:100%;object-fit:cover"></div>
+            <h3 style="margin:.6rem 0 0;color:#ff4fd8">${v.title}</h3>
+            ${v.published && v.published!="#NAME?" ? `<p class="subtitle">${v.published}</p>` : ``}
+          </a>`;
+        grid.appendChild(el);
+      });
+    }catch(err){
+      console.error(err);
+      document.getElementById("featured").innerHTML='<p class="muted">Sorry—couldn’t load videos right now.</p>';
+    }
+  })();
+  </script>
 </body>
 </html>
