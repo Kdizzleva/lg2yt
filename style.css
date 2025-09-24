@@ -158,6 +158,45 @@ body{
 .footer a{color:var(--text); text-decoration:none; opacity:.9}
 .footer a:hover{opacity:1}
 
+/* ---- Shop / Featured merch ---- */
+.merch-section { padding: 20px 18px; }
+
+.featured-merch{
+  display:grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap:22px;
+  align-items:center;
+}
+.featured-img{
+  width:100%;
+  height:auto;
+  border-radius:16px;
+  box-shadow: 0 10px 35px rgba(255, 79, 216, .25);
+  background:#0e1218;
+  object-fit:contain;
+}
+.featured-details h2{ margin:.25rem 0 .35rem; }
+.featured-details p{ margin:0 0 .75rem; }
+
+.merch-embed iframe{
+  display:block;
+  width:100%;
+  height:420px;
+  border:none;
+  border-radius:24px;
+  box-shadow:0 0 25px rgba(255,0,128,.6);
+}
+
+/* small helpers */
+.pill.small{ font-size:.7rem; padding:.15rem .45rem; }
+.muted.small{ font-size:.85rem; opacity:.8; }
+
+/* responsive */
+@media (max-width: 980px){
+  .featured-merch{ grid-template-columns: 1fr; }
+  .featured-details{ text-align:left; }
+}
+
 /* Reveal on scroll */
 .reveal{opacity:0; transform: translateY(8px); transition:opacity .5s ease, transform .5s ease}
 .reveal.show{opacity:1; transform:none}
