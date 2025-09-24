@@ -3,201 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Let's Go To... (LG2YT)</title>
-  <meta name="description" content="Food • Travel • Theme Parks — Let's Go To…"/>
+  <title>Videos • LG2</title>
+  <meta name="description" content="All LG2 videos — featured picks, latest drops, and your watch list."/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/lg2-favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/lg2-favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#0f1720">
+  <meta property="og:site_name" content="LG2 — Let's Go To…">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LG2 — Videos">
+  <meta property="og:description" content="Featured picks, latest drops, and your watch list.">
+  <meta property="og:image" content="https://lg2yt.com/assets/img/lg2-og-1200x630.jpg">
+  <meta property="og:url" content="https://lg2yt.com/videos.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LG2 — Videos">
+  <meta name="twitter:description" content="Featured picks, latest drops, and your watch list.">
+  <meta name="twitter:image" content="https://lg2yt.com/assets/img/lg2-og-1200x630.jpg">
 </head>
 <body>
   <div class="noise"></div>
 
   <header class="nav">
     <div class="logo">
-      <img id="site-logo" src="assets/img/lg2-logo.jpeg" alt="LG2 Logo"/>
+      <img id="site-logo" src="assets/img/lg2-icon-192.png" alt="LG2 Logo"/>
       <span class="glow">LG2</span><span class="dot">.</span><span class="tag">Let's Go To…</span>
     </div>
     <nav>
       <a href="index.html">Home</a>
-      <a href="videos.html" class="active">Videos</a>
+      <a href="videos.html">Videos</a>
       <a href="blog.html">Let's Go To Eat</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <a class="pill" href="shop.html">Shop</a>
     </nav>
+    <button class="burger" aria-label="Open Menu"><span></span></button>
   </header>
 
   <main class="container">
-    <section class="hero glass" id="featured"></section>
+    <section class="glass" id="featured"></section>
 
-    <section>
+    <section class="glass">
       <h1 class="page-title">Latest Videos</h1>
-      <div id="video-grid" class="grid"></div>
+      <div id="video-grid" class="grid videos"></div>
     </section>
 
-    <section id="watchlist-section" style="display:none;">
-      <h2 class="page-title" style="margin-top:28px">Watch Next</h2>
-      <div id="watchlist" class="grid"></div>
+    <section class="glass" id="watchlist-section" style="display:none;">
+      <h2 class="title">Watch Next</h2>
+      <div id="watchlist" class="grid videos"></div>
     </section>
   </main>
 
   <footer class="footer">
     <p>© 2025 Let’s Go To… • #LetsGoToCrew</p>
     <div class="socials">
-      <a id="yt" target="_blank">YouTube</a>
-      <a id="ig" target="_blank">Instagram</a>
-      <a id="fb" target="_blank">Facebook</a>
-      <a id="x" target="_blank">X</a>
+      <a href="https://www.youtube.com/@Kdizzleva" target="_blank">YouTube</a>
+      <a href="https://www.instagram.com/letsgoto.yt/" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/lestgoto.yt" target="_blank">Facebook</a>
+      <a href="https://x.com/lg2yt" target="_blank">X</a>
+      <a href="https://www.tiktok.com/@lg2yt" target="_blank">TikTok</a>
+      <a href="https://www.lemon8-app.com/@lg2yt?region=us" target="_blank">Lemon8</a>
     </div>
   </footer>
 
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script>
-  (async function () {
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSziN8EwaEBgx5c1BtKRThZycM8JDjxISm_Irsr-ji0eKGoO0POxS2L5rJUUMY496fAO3rm8GutyyTo/pub?gid=0&single=true&output=csv";
+  (async function(){
+    const CSV_URL = (window.LG2_CONFIG && LG2_CONFIG.VIDEOS_CSV_URL)
+      ? LG2_CONFIG.VIDEOS_CSV_URL
+      : "https://docs.google.com/spreadsheets/d/e/2PACX-1vSziN8EwaEBgx5c1BtKRThZycM8JDjxISm_Irsr-ji0eKGoO0POxS2L5rJUUMY496fAO3rm8GutyyTo/pub?gid=0&single=true&output=csv";
 
-    // --- robust CSV parser (quotes, commas, newlines) ---
-    function parseCSV(text) {
-      const rows = [];
-      let row = [], cur = "", inQuotes = false;
-      for (let i = 0; i < text.length; i++) {
-        const c = text[i], n = text[i+1];
-        if (inQuotes) {
-          if (c === '"' && n === '"') { cur += '"'; i++; }
-          else if (c === '"') { inQuotes = false; }
-          else { cur += c; }
-        } else {
-          if (c === '"') inQuotes = true;
-          else if (c === ',') { row.push(cur); cur = ""; }
-          else if (c === '\n') { row.push(cur); rows.push(row); row = []; cur = ""; }
-          else if (c === '\r') { /* ignore */ }
-          else { cur += c; }
-        }
-      }
-      if (cur.length || row.length) { row.push(cur); rows.push(row); }
-      return rows;
-    }
+    function parseCSV(text){ const rows=[]; let row=[],cur="",inQ=false; for(let i=0;i<text.length;i++){ const c=text[i],n=text[i+1]; if(inQ){ if(c=='"'&&n=='"'){cur+='\"';i++;} else if(c=='"'){inQ=false;} else {cur+=c;} } else { if(c=='"') inQ=true; else if(c==','){row.push(cur);cur="";} else if(c=='\n'){row.push(cur);rows.push(row);row=[];cur="";} else if(c!='\r'){cur+=c;} } } if(cur.length||row.length){row.push(cur);rows.push(row);} return rows; }
+    const norm=s=>(s||"").toLowerCase().replace(/\s+/g," ").trim().replace(/[^a-z0-9]/g,"");
+    const findIdx=(h,...keys)=>{ const H=h.map(norm); for(const k of keys){ const i=H.indexOf(k); if(i!==-1) return i;} return -1; };
+    const esc = s => (s||"").replace(/"/g,"&quot;");
+    try{
+      const res=await fetch(CSV_URL+(CSV_URL.includes("?")?"&":"?")+"t="+Date.now(),{cache:"no-store"});
+      let text=await res.text(); text=text.replace(/^\uFEFF/,""); const rows=parseCSV(text); if(!rows.length) return;
+      const header=rows.shift().map(h=>h.trim());
+      const col={ Title:findIdx(header,"title"), URL:findIdx(header,"vidurl","url"), ID:findIdx(header,"youtubeid","id"), Category:findIdx(header,"category"), Region:findIdx(header,"region"), State:findIdx(header,"state"), Park:findIdx(header,"park"), SubPark:findIdx(header,"subpark"), Tags:findIdx(header,"tagsautogenerated","tags"), Slug:findIdx(header,"slug"), Published:findIdx(header,"published","date"), Featured:findIdx(header,"featured"), Watchlist:findIdx(header,"watchlist"), SortKey:findIdx(header,"sortkey") };
+      const val=(r,i)=> (i>=0 ? (r[i]||"").trim() : ""); const bool=(r,i)=> (val(r,i).toUpperCase()==="TRUE");
+      const items=rows.filter(r=>r.some(x=>(x||"").trim()!==""))
+        .map(r=>({ title:val(r,col.Title), url:val(r,col.URL), id:val(r,col.ID), category:val(r,col.Category), region:val(r,col.Region), state:val(r,col.State), park:val(r,col.Park), subpark:val(r,col.SubPark), tags:val(r,col.Tags), slug:val(r,col.Slug), published:val(r,col.Published), featured:bool(r,col.Featured), watchlist:bool(r,col.Watchlist), sortKey:Number(val(r,col.SortKey)||999999999) }))
+        .filter(v=>v.id);
+      items.sort((a,b)=>a.sortKey-b.sortKey);
 
-    // header normalizer -> lowercase, strip non-alphanum
-    const norm = s => (s||"").toLowerCase().replace(/\s+/g," ").trim().replace(/[^a-z0-9]/g,"");
-    const findIdx = (header, ...keys) => {
-      const H = header.map(norm);
-      for (const k of keys) { const i = H.indexOf(k); if (i !== -1) return i; }
-      return -1;
-    };
-
-    try {
-      // cache-buster
-      const url = CSV_URL + (CSV_URL.includes("?") ? "&" : "?") + "t=" + Date.now();
-      const res = await fetch(url, { cache: "no-store" });
-      let text = await res.text();
-      text = text.replace(/^\uFEFF/, ""); // strip BOM
-
-      const rows = parseCSV(text);
-      if (!rows.length) throw new Error("CSV empty");
-
-      const header = rows.shift().map(h => h.trim());
-
-      // tolerant header matching (uses your labels)
-      const col = {
-        Title:     findIdx(header, "title"),
-        URL:       findIdx(header, "vidurl", "url"),
-        ID:        findIdx(header, "youtubeid", "id"),
-        Category:  findIdx(header, "category"),
-        Region:    findIdx(header, "region"),
-        State:     findIdx(header, "state"),
-        Park:      findIdx(header, "park"),
-        SubPark:   findIdx(header, "subpark"),
-        Tags:      findIdx(header, "tagsautogenerated", "tags"),
-        Slug:      findIdx(header, "slug"),
-        Published: findIdx(header, "published", "date"),
-        Featured:  findIdx(header, "featured"),
-        Watchlist: findIdx(header, "watchlist"),
-        SortKey:   findIdx(header, "sortkey")
-      };
-
-      const val  = (r,i)=> (i>=0 ? (r[i]||"").trim() : "");
-      const bool = (r,i)=> val(r,i).toUpperCase() === "TRUE";
-
-      const items = rows
-        .filter(r => r.some(x => (x||"").trim() !== ""))
-        .map(r => ({
-          title:     val(r, col.Title),
-          url:       val(r, col.URL),
-          id:        val(r, col.ID),
-          category:  val(r, col.Category),
-          region:    val(r, col.Region),
-          state:     val(r, col.State),
-          park:      val(r, col.Park),
-          subpark:   val(r, col.SubPark),
-          tags:      val(r, col.Tags),
-          slug:      val(r, col.Slug),
-          published: val(r, col.Published),   // you type this date in the sheet
-          featured:  bool(r, col.Featured),
-          watchlist: bool(r, col.Watchlist),
-          sortKey:   Number(val(r, col.SortKey) || 999999999)
-        }))
-        .filter(v => v.id);
-
-      if (!items.length) throw new Error("No rows with YouTubeID found.");
-
-      // sort by SortKey ASC (featured first, then newest)
-      items.sort((a,b) => a.sortKey - b.sortKey);
-
-      // FEATURED
-      const featured = items.find(v => v.featured) || items[0];
-      if (featured) {
+      const featured = items.find(v=>v.featured) || items[0];
+      if(featured){
         document.getElementById("featured").innerHTML = `
-          <h1 class="title">Featured</h1>
-          <div class="ratio" style="max-width:900px;margin:14px auto;border-radius:14px;overflow:hidden">
-            <iframe width="100%" height="506"
-              src="https://www.youtube.com/embed/${featured.id}"
-              title="${featured.title.replace(/"/g,"&quot;")}"
-              frameborder="0"
+          <div class="ratio" style="max-width:1100px;margin:0 auto 12px">
+            <iframe src="https://www.youtube.com/embed/${esc(featured.id)}" title="${esc(featured.title)}" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen></iframe>
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
-          <p class="subtitle">${featured.title}</p>
-          ${featured.published && featured.published !== "#NAME?" ? `<p class="subtitle">Published: ${featured.published}</p>` : ""}
+          <p class="subtitle">${esc(featured.title)} ${featured.published && featured.published !== "#NAME?" ? ` • ${esc(featured.published)}` : ""}</p>
         `;
       }
 
-      // LATEST GRID
       const grid = document.getElementById("video-grid");
-      items
-        .filter(v => !featured || v.id !== featured.id)
-        .slice(0, 12)
-        .forEach(v => {
-          const el = document.createElement("article");
-          el.className = "card";
-          el.innerHTML = `
-            <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
-              <div class="ratio">
-                <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title.replace(/"/g,"&quot;")}" style="width:100%;height:100%;object-fit:cover">
-              </div>
-              <h3 style="margin:.6rem 0 0;color:#ff4fd8">${v.title}</h3>
-              ${v.published && v.published !== "#NAME?" ? `<p class="subtitle">${v.published}</p>` : ""}
-            </a>
-          `;
-          grid.appendChild(el);
-        });
+      items.filter(v => !featured || v.id !== featured.id).slice(0, 12).forEach(v => {
+        const el = document.createElement("article"); el.className = "card";
+        el.innerHTML = `
+          <a href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+            <div class="ratio">
+              <img src="https://img.youtube.com/vi/${esc(v.id)}/hqdefault.jpg" alt="${esc(v.title)}" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+            </div>
+            <h3 style="margin:.6rem 0 0;color:var(--accent)">${esc(v.title)}</h3>
+            ${v.published && v.published !== "#NAME?" ? `<p class="subtitle">${esc(v.published)}</p>` : ""}
+          </a>`;
+        grid.appendChild(el);
+      });
 
-      // WATCHLIST
       const wl = items.filter(v => v.watchlist);
       if (wl.length) {
         document.getElementById("watchlist-section").style.display = "";
         const wrap = document.getElementById("watchlist");
         wl.forEach(v => {
-          const el = document.createElement("article");
-          el.className = "card";
+          const el = document.createElement("article"); el.className = "card";
           el.innerHTML = `
-            <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
+            <a href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
               <div class="ratio">
-                <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title.replace(/"/g,"&quot;")}" style="width:100%;height:100%;object-fit:cover">
+                <img src="https://img.youtube.com/vi/${esc(v.id)}/hqdefault.jpg" alt="${esc(v.title)}" style="width:100%;height:100%;object-fit:cover" loading="lazy">
               </div>
-              <h3 style="margin:.6rem 0 0;color:#2de2e6">${v.title}</h3>
-            </a>
-          `;
+              <h3 style="margin:.6rem 0 0;color:var(--primary)">${esc(v.title)}</h3>
+            </a>`;
           wrap.appendChild(el);
         });
       }
