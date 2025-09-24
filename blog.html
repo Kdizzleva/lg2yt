@@ -1,25 +1,166 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Let’s Go To Eat • LG2</title><link rel="stylesheet" href="style.css"></head>
-<body><div class="noise"></div>
-<header class="nav"><div class="logo">
-  <img id="site-logo" src="assets/img/lg2-logo.jpeg" alt="LG2 Logo"/>
-  <span class="glow">LG2</span><span class="dot">.</span><span class="tag">Let's Go To…</span>
-</div>
-<nav>
-  <a href="index.html">Home</a>
-  <a href="videos.html">Videos</a>
-  <a href="blog.html" class="active">Let's Go To Eat</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-  <a class="pill" href="shop.html">Shop</a>
-</nav></header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Let’s Go To Eat • LG2</title>
+  <meta name="description" content="Food guides, honest reviews, and news from the parks and nearby cities. Let’s Go To Eat!" />
 
-<main class="container">
-  <section class="glass">
-    <h1 class="page-title">Let’s Go To Eat</h1>
-    <p class="muted">Food guides &amp; reviews coming soon.</p>
-  </section>
-</main>
-<footer class="footer"><p>© 2025 Let’s Go To… • #LetsGoToCrew</p></footer>
-</body></html>
+  <!-- Fonts + CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Favicons / App icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/lg2-favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/lg2-favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#0f1720">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:site_name" content="LG2 — Let's Go To…">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Let’s Go To Eat • LG2">
+  <meta property="og:description" content="Food guides, honest reviews, and park news—neon vibes, real talk.">
+  <meta property="og:image" content="https://lg2yt.com/assets/img/lg2-og-1200x630.jpg">
+  <meta property="og:url" content="https://lg2yt.com/blog.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Let’s Go To Eat • LG2">
+  <meta name="twitter:description" content="Food guides, honest reviews, and park news—neon vibes, real talk.">
+  <meta name="twitter:image" content="https://lg2yt.com/assets/img/lg2-og-1200x630.jpg">
+</head>
+<body>
+  <div class="noise"></div>
+
+  <!-- Header -->
+  <header class="nav">
+    <div class="logo">
+      <img id="site-logo" src="assets/img/lg2-icon-192.png" alt="LG2 Logo"/>
+      <span class="glow">LG2</span><span class="dot">.</span><span class="tag">Let's Go To…</span>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="videos.html">Videos</a>
+      <a class="active" href="blog.html">Let's Go To Eat</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="pill" href="shop.html">Shop</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- Hero / intro -->
+    <section class="glass">
+      <h1 class="page-title">Let’s Go To Eat</h1>
+      <p class="muted" style="font-size:1.05rem;line-height:1.7">
+        Honest reviews, food guides, and park news. From festival bites to hidden gems—what’s worth your money,
+        what to skip, and where to eat after the rides.
+      </p>
+    </section>
+
+    <!-- Filters -->
+    <section class="glass" id="filters">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" data-filter="all">All</button>
+        <button class="btn" data-filter="review">Reviews</button>
+        <button class="btn" data-filter="guide">Guides</button>
+        <button class="btn" data-filter="news">News</button>
+      </div>
+    </section>
+
+    <!-- Posts grid -->
+    <section class="glass">
+      <div class="grid" id="posts" style="--cols:3">
+
+        <!-- POST CARD EXAMPLE (duplicate & edit) -->
+        <article class="card" data-tags="review,disney,florida">
+          <div class="ratio">
+            <img src="assets/img/lg2-og-1200x630.jpg" alt="Festival of the Arts Food — EPCOT" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+          </div>
+          <h3 style="margin:.6rem 0 6px;">EPCOT Festival of the Arts — Best Bites</h3>
+          <p class="muted small" style="margin:0 0 8px;">Feb 2025 • Disney World, FL</p>
+          <p class="muted">We tried 14 items so you don’t have to. These are the five winners (and three to skip).</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+            <span class="pill small">Review</span>
+            <span class="pill small">Disney</span>
+            <span class="pill small">Festival</span>
+          </div>
+        </article>
+
+        <article class="card" data-tags="guide,orlando,universal">
+          <div class="ratio">
+            <!-- You can embed a video instead of an image if you want -->
+            <iframe width="560" height="315"
+              src="https://www.youtube.com/embed/a0UJrOU8ECs"
+              title="Universal Orlando Food Guide" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <h3 style="margin:.6rem 0 6px;">Universal Orlando — Quick Food Guide</h3>
+          <p class="muted small" style="margin:0 0 8px;">Jan 2025 • Orlando, FL</p>
+          <p class="muted">Fast, cheap, actually good. Our go-to spots in Studios, IOA, and CityWalk.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+            <span class="pill small">Guide</span>
+            <span class="pill small">Universal</span>
+          </div>
+        </article>
+
+        <article class="card" data-tags="news,seasonal,magic-kingdom">
+          <div class="ratio">
+            <img src="assets/img/lg2-icon-512.png" alt="Boo To You Parade Snacks" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+          </div>
+          <h3 style="margin:.6rem 0 6px;">Boo-To-You: New Snacks Drop</h3>
+          <p class="muted small" style="margin:0 0 8px;">Sep 2025 • Magic Kingdom</p>
+          <p class="muted">Seasonal treats hit Main Street. We’re eyeing the spiced apple hand pie and zombie waffle.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+            <span class="pill small">News</span>
+            <span class="pill small">Seasonal</span>
+          </div>
+        </article>
+
+        <!-- Add more posts below by duplicating any <article class="card"> block -->
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer with all socials -->
+  <footer class="footer">
+    <p>© 2025 Let’s Go To… • #LetsGoToCrew</p>
+    <div class="socials">
+      <a id="yt" href="https://www.youtube.com/@Kdizzleva" target="_blank">YouTube</a>
+      <a id="ig" href="https://www.instagram.com/letsgoto.yt/" target="_blank">Instagram</a>
+      <a id="fb" href="https://www.facebook.com/lestgoto.yt" target="_blank">Facebook</a>
+      <a id="x" href="https://x.com/lg2yt" target="_blank">X</a>
+      <a id="tt" href="https://www.tiktok.com/@lg2yt" target="_blank">TikTok</a>
+      <a id="l8" href="https://www.lemon8-app.com/@lg2yt?region=us" target="_blank">Lemon8</a>
+    </div>
+  </footer>
+
+  <!-- Tiny filter script (no libraries) -->
+  <script>
+    (function(){
+      const btns = document.querySelectorAll('#filters [data-filter]');
+      const cards = document.querySelectorAll('#posts .card');
+      let active = 'all';
+
+      function applyFilter(tag){
+        active = tag;
+        cards.forEach(c => {
+          const tags = (c.getAttribute('data-tags') || '').toLowerCase();
+          const show = tag === 'all' || tags.includes(tag);
+          c.style.display = show ? '' : 'none';
+        });
+        btns.forEach(b => b.classList.toggle('primary', b.dataset.filter === tag));
+      }
+
+      btns.forEach(b => b.addEventListener('click', () => applyFilter(b.dataset.filter)));
+      applyFilter('all'); // default
+    })();
+  </script>
+</body>
+</html>
