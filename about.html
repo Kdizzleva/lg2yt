@@ -1,25 +1,182 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>About • LG2</title><link rel="stylesheet" href="style.css"></head>
-<body><div class="noise"></div>
-<header class="nav"><div class="logo">
-  <img id="site-logo" src="assets/img/lg2-logo.jpeg" alt="LG2 Logo"/>
-  <span class="glow">LG2</span><span class="dot">.</span><span class="tag">Let's Go To…</span>
-</div>
-<nav>
-  <a href="index.html">Home</a>
-  <a href="videos.html">Videos</a>
-  <a href="blog.html">Let's Go To Eat</a>
-  <a href="about.html" class="active">About</a>
-  <a href="contact.html">Contact</a>
-  <a class="pill" href="shop.html">Shop</a>
-</nav></header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About • LG2</title>
+  <meta name="description" content="Let’s Go To… (LG2) is a neon-soaked guide to food, travel, and theme parks. We chase the best bites, rides, and budget hacks across the U.S." />
 
-<main class="container">
-  <section class="glass">
-    <h1 class="page-title">About LG2</h1>
-    <p>Neon nights, budget hacks, and big thrills. We’re Kevin &amp; crew — exploring food, travel, and theme parks across the US.</p>
-  </section>
-</main>
-<footer class="footer"><p>© 2025 Let’s Go To… • #LetsGoToCrew</p></footer>
-</body></html>
+  <!-- Fonts + CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Favicons / App icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/lg2-favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/lg2-favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#0f1720">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:site_name" content="LG2 — Let's Go To…">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About • LG2">
+  <meta property="og:description" content="We find the best bites, rides, and budget hacks at theme parks and cities across the U.S. Join the #LetsGoToCrew.">
+  <meta property="og:image" content="https://lg2yt.com/assets/img/lg2-og-1200x630.jpg">
+  <meta property="og:url" content="https://lg2yt.com/about.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About • LG2">
+  <meta name="twitter:description" content="Food • Travel • Theme Parks — neon vibes, honest reviews, & budget tips.">
+  <meta name="twitter:image" content="https://lg2yt.com/assets/img/lg2-og-1200x630.jpg">
+</head>
+<body>
+  <div class="noise"></div>
+
+  <!-- Header -->
+  <header class="nav">
+    <div class="logo">
+      <img id="site-logo" src="assets/img/lg2-icon-192.png" alt="LG2 Logo"/>
+      <span class="glow">LG2</span><span class="dot">.</span><span class="tag">Let's Go To…</span>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="videos.html">Videos</a>
+      <a href="blog.html">Let's Go To Eat</a>
+      <a class="active" href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="pill" href="shop.html">Shop</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- Hero -->
+    <section class="glass" style="overflow:hidden">
+      <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center">
+        <div>
+          <h1 class="page-title">We’re LG2 — Let’s Go To…</h1>
+          <p class="muted" style="font-size:1.05rem;line-height:1.7">
+            Neon nights, budget hacks, and big thrills. We hunt down the <strong>best bites</strong>,
+            <strong>can’t-miss shows</strong>, and <strong>iconic rides</strong> so you can plan a killer day
+            at the parks (and around the city) without wasting time or cash.
+          </p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+            <a class="btn primary" href="videos.html">Watch the latest</a>
+            <a class="btn" href="https://patreon.com/LetsGoTo" target="_blank" rel="noopener">Join the Crew</a>
+          </div>
+        </div>
+        <div class="ratio" style="border-radius:16px;overflow:hidden;min-height:220px">
+          <!-- teaser video slot; swap the ID when ready -->
+          <iframe width="560" height="315"
+            src="https://www.youtube.com/embed/7GQ77MNR0qc"
+            title="LG2 Trailer" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- What you’ll find -->
+    <section class="glass">
+      <h2 class="title">What you’ll find here</h2>
+      <div class="grid" style="--cols:3">
+        <article class="card">
+          <h3>Theme Park Playbooks</h3>
+          <p class="muted">Seasonal events, parade routes, best-time-to-ride, and money-saving tips for Disney, Universal, Busch Gardens, SeaWorld & more.</p>
+        </article>
+        <article class="card">
+          <h3>Let’s Go To Eat</h3>
+          <p class="muted">From festival snacks to local gems—real-talk reviews, what’s worth it, and which bites are just for the ‘gram.</p>
+        </article>
+        <article class="card">
+          <h3>Practical Travel</h3>
+          <p class="muted">Parking, rope drop strategy, budget passes, hotel location picks, and route planning that actually works.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Where we go -->
+    <section class="glass">
+      <h2 class="title">Where we go</h2>
+      <div class="grid" style="--cols:2">
+        <article class="card">
+          <h4>South & Southeast</h4>
+          <p class="muted">WDW (Magic Kingdom, EPCOT, DHS, DAK), Universal Orlando, Busch Gardens Tampa, SeaWorld Orlando, and seasonal haunts.</p>
+        </article>
+        <article class="card">
+          <h4>Road Trips & Beyond</h4>
+          <p class="muted">We’ll expand across the U.S.—send your must-do park or city recs and we might roll up next.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Meet the Crew -->
+    <section class="glass">
+      <h2 class="title">Meet the Crew</h2>
+      <div class="grid" style="--cols:2">
+        <article class="card" style="display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center">
+          <img src="assets/img/lg2-icon-192.png" alt="LG2" style="width:96px;height:96px;border-radius:16px;object-fit:cover">
+          <div>
+            <h3 style="margin:0 0 6px">KDizzle</h3>
+            <p class="muted" style="margin:0">Strategy, shots, and park ops nerd. The guy who’ll shave 45 minutes off a queue with one route change.</p>
+          </div>
+        </article>
+        <article class="card" style="display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center">
+          <img src="assets/img/lg2-icon-192.png" alt="LG2" style="width:96px;height:96px;border-radius:16px;object-fit:cover">
+          <div>
+            <h3 style="margin:0 0 6px">The Crew</h3>
+            <p class="muted" style="margin:0">Friends, family, and #LetsGoToCrew members who join for test runs, taste tests, and shenanigans.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Support / Work with us -->
+    <section class="glass">
+      <h2 class="title">Support the channel</h2>
+      <p class="muted">If our guides save you time or money, consider supporting LG2—every bit helps us film more parks, events, and eats.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn primary" href="https://patreon.com/LetsGoTo" target="_blank" rel="noopener">Patreon</a>
+        <a class="btn" href="https://ko-fi.com/lg2yt" target="_blank" rel="noopener">Ko-fi</a>
+      </div>
+      <hr style="border:none;border-top:1px solid #2a3340;margin:18px 0">
+      <h3>Collabs & media</h3>
+      <p class="muted">Got an event, menu, or park update we should cover? We love honest, useful features. Reach out and we’ll chat details.</p>
+      <a class="btn" href="contact.html">Contact us</a>
+    </section>
+
+    <!-- FAQ -->
+    <section class="glass">
+      <h2 class="title">FAQ</h2>
+      <div class="card">
+        <h4>Do you take requests?</h4>
+        <p class="muted">Yes! Drop them in a YouTube comment or send a message—region, park, seasonal event, or a “Let’s Go To Eat” spot.</p>
+      </div>
+      <div class="card">
+        <h4>Are your videos sponsored?</h4>
+        <p class="muted">If/when a video is sponsored, we’ll say it clearly. Opinions stay honest—if it’s mid, we’ll tell you.</p>
+      </div>
+      <div class="card">
+        <h4>How do I join the #LetsGoToCrew?</h4>
+        <p class="muted">Hit <a href="https://patreon.com/LetsGoTo" target="_blank" rel="noopener">Patreon</a> or <a href="https://ko-fi.com/lg2yt" target="_blank" rel="noopener">Ko-fi</a> for early vids, polls, and behind-the-scenes.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+<footer class="footer">
+  <p>© 2025 Let’s Go To… • #LetsGoToCrew</p>
+  <div class="socials">
+    <a id="yt" href="https://www.youtube.com/@Kdizzleva" target="_blank">YouTube</a>
+    <a id="ig" href="https://www.instagram.com/letsgoto.yt/" target="_blank">Instagram</a>
+    <a id="fb" href="https://www.facebook.com/lestgoto.yt" target="_blank">Facebook</a>
+    <a id="x" href="https://x.com/lg2yt" target="_blank">X</a>
+    <a id="tt" href="https://www.tiktok.com/@lg2yt" target="_blank">TikTok</a>
+    <a id="l8" href="https://www.lemon8-app.com/@lg2yt?region=us" target="_blank">Lemon8</a>
+  </div>
+</footer>
+</body>
+</html>
