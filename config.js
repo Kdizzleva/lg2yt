@@ -1,13 +1,23 @@
-window.SITE = {
-  latestVideoId: "a0UJrOU8ECs",
-  videoIds: ["5ZYeMVbuw1Y","XWwUqaOp6js","FmcPuBOamL4","aQcRNyvsVJ4","Umwo_GG5gQ0","U99Sdo3wylI","LK8gVm51t3c","_MTLGQ2wMv4","C_xnFUnwyNc","d7FCLTR6CwE","a0UJrOU8ECs"],
-  SHEET_CSV_URL: "",
-  crewLink: "https://patreon.com/LetsGoTo?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink",
-  shopLink: "https://ko-fi.com/lg2yt",
-  socials: {
-    youtube: "https://youtube.com/@lg2yt",
-    instagram: "https://instagram.com/letsgo2.yt",
-    facebook: "https://facebook.com/letsgo2yt",
-    x: "https://x.com/lg2yt"
+/* LG2 Site Config
+   Central place for site-wide constants
+   Any page can import this before its own script
+*/
+
+window.LG2_CONFIG = {
+  // Google Sheets CSV (videos)
+  VIDEOS_CSV_URL:
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSziN8EwaEBgx5c1BtKRThZycM8JDjxISm_Irsr-ji0eKGoO0POxS2L5rJUUMY496fAO3rm8GutyyTo/pub?gid=0&single=true&output=csv",
+
+  // (optional) Blog Sheet CSV (set if you want blog.js to use it)
+  BLOG_CSV_URL: "",
+
+  // Social links
+  SOCIALS: {
+    youtube:  "https://www.youtube.com/@Kdizzleva",
+    instagram:"https://www.instagram.com/letsgoto.yt/",
+    facebook: "https://www.facebook.com/lestgoto.yt",
+    x:        "https://x.com/lg2yt",
+    tiktok:   "https://www.tiktok.com/@lg2yt",
+    lemon8:   "https://www.lemon8-app.com/@lg2yt?region=us"
   }
 };
