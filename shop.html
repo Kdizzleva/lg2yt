@@ -1,28 +1,78 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shop • LG2</title><link rel="stylesheet" href="style.css"></head>
-<body><div class="noise"></div>
-<header class="nav"><div class="logo">
-  <img id="site-logo" src="assets/img/lg2-logo.jpeg" alt="LG2 Logo"/>
-  <span class="glow">LG2</span><span class="dot">.</span><span class="tag">Let's Go To…</span>
-</div>
-<nav>
-  <a href="index.html">Home</a>
-  <a href="videos.html">Videos</a>
-  <a href="blog.html">Let's Go To Eat</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-  <a class="pill active" href="shop.html">Shop</a>
-</nav>
-  <button class="burger" aria-label="Open Menu"><span></span></button>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop — Let's Go To... (LG2YT)</title>
+  <meta name="description" content="Shop Let's Go To... merch — limited neon drops, glow-in-the-dark collections, and exclusive seasonal gear."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="nav">
+    <div class="logo">
+      <img id="site-logo" src="assets/img/lg2-logo.jpeg" alt="LG2 Logo"/>
+      <span class="glow">LG2</span><span class="dot">.</span><span class="tag">Let's Go To…</span>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="videos.html">Videos</a>
+      <a href="blog.html">Let's Go To Eat</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="pill active" href="shop.html">Shop</a>
+    </nav>
+  </header>
 
-<main class="container">
-  <section class="glass">
-    <h1 class="page-title">Support the Crew</h1>
-    <p><a class="btn" href="https://patreon.com/LetsGoTo" target="_blank" rel="noopener">Patreon</a>
-       <a class="btn" href="https://ko-fi.com/lg2yt" target="_blank" rel="noopener">Ko-fi</a></p>
-  </section>
-</main>
-<footer class="footer"><p>© 2025 Let’s Go To… • #LetsGoToCrew</p></footer>
-</body></html>
+  <main class="container">
+    <!-- Featured Drop -->
+    <section class="glass merch-section">
+      <h1 class="page-title">Featured Drop</h1>
+      <p class="muted">Limited edition, seasonal designs — once they’re gone, they’re gone!</p>
+      
+      <div class="featured-merch">
+        <img src="assets/img/halloween-drop.png" alt="Let's Glow To Halloween 2025 Shirt" class="featured-img">
+        <div class="featured-details">
+          <h2>Let’s Glow To Halloween 2025</h2>
+          <p class="muted">Bold neon skull design with spiderweb accents — perfect for spooky nights. Available now in our Halloween 2025 drop.</p>
+          <a href="#store-embed" class="btn primary">Shop Now</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spring Embed -->
+    <section class="glass merch-section" id="store-embed">
+      <h2 class="page-title">Shop the Glow Collection</h2>
+      <p class="muted">Limited drops, neon vibes, and gear for every adventure. Don’t miss out!</p>
+      
+      <div class="merch-embed">
+        <iframe 
+          style="border-radius:24px;border:none;box-shadow:0 0 25px rgba(255, 0, 128, 0.6);" 
+          src="https://embed.creator-spring.com/widget?slug=lets-go-to-the-store-2&per=20&currency=&page=1&layout=carousel-small&theme=light" 
+          title="Lets Go To... The Store Merch store powered by Spring" 
+          width="100%" 
+          height="420" 
+          loading="lazy"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 Let’s Go To… • #LetsGoToCrew</p>
+    <div class="socials">
+      <a id="yt" target="_blank">YouTube</a>
+      <a id="ig" target="_blank">Instagram</a>
+      <a id="fb" target="_blank">Facebook</a>
+      <a id="x" target="_blank">X</a>
+      <a id="tt" target="_blank">TikTok</a>
+      <a id="lemon8" target="_blank">Lemon8</a>
+    </div>
+  </footer>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
