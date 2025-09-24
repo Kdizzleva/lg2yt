@@ -4,32 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LG2 — Let’s Go To…</title>
-  <meta name="description" content="Food • Travel • Theme Parks — neon vibes, honest reviews, and budget tips. Watch the latest and plan smarter."/>
+  <meta name="description" content="Food • Travel • Theme Parks — neon vibes, honest reviews, and budget tips. Watch, read, and shop the latest." />
+
+  <!-- Fonts + Core CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
-  <!-- Icons / OG -->
+  <!-- Favicons / Meta -->
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/lg2-favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/lg2-favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#0f1720">
+
   <meta property="og:site_name" content="LG2 — Let's Go To…">
   <meta property="og:type" content="website">
   <meta property="og:title" content="LG2 — Home">
-  <meta property="og:description" content="Food • Travel • Theme Parks — neon vibes, honest reviews, and budget tips.">
+  <meta property="og:description" content="Videos, food guides, and gear picks from the parks and beyond.">
   <meta property="og:image" content="https://lg2yt.com/assets/img/lg2-og-1200x630.jpg">
   <meta property="og:url" content="https://lg2yt.com/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="LG2 — Home">
-  <meta name="twitter:description" content="Food • Travel • Theme Parks — neon vibes, honest reviews, and budget tips.">
-  <meta name="twitter:image" content="https://lg2yt.com/assets/img/lg2-og-1200x630.jpg">
+
+  <!-- Home-only polish for scrollers -->
+  <style>
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .section-head .title{margin:0}
+    .scroller{position:relative}
+    .scroller .row{
+      display:flex; gap:14px; overflow:auto; scroll-behavior:smooth; padding:4px 2px 8px;
+      -webkit-overflow-scrolling:touch; scrollbar-width:thin;
+    }
+    .scroller .row::-webkit-scrollbar{height:8px}
+    .scroller .row::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:20px}
+    .scroller .item{min-width:250px; max-width:250px}
+    .scroller .item .ratio{border-radius:12px}
+    .scroll-btn{
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:38px; height:38px; border-radius:10px; border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06); color:#fff; display:flex; align-items:center; justify-content:center;
+      box-shadow: var(--shadow); cursor:pointer;
+    }
+    .scroll-btn:hover{border-color:rgba(255,255,255,.28)}
+    .scroll-btn.prev{left:-6px}
+    .scroll-btn.next{right:-6px}
+    @media (max-width:720px){ .scroll-btn{display:none} }
+  </style>
 </head>
 <body>
   <div class="noise"></div>
 
+  <!-- Header -->
   <header class="nav">
     <div class="logo">
       <img id="site-logo" src="assets/img/lg2-icon-192.png" alt="LG2 Logo"/>
@@ -47,16 +73,68 @@
   </header>
 
   <main class="container">
+
+    <!-- Featured video -->
     <section class="glass" id="featured"></section>
+
+    <!-- Latest videos grid -->
     <section class="glass">
-      <h2 class="title">Latest Videos</h2>
+      <div class="section-head">
+        <h2 class="title">Latest Videos</h2>
+        <a class="btn primary" href="videos.html">See all</a>
+      </div>
       <div id="latest-grid" class="grid"></div>
-      <div style="text-align:center;margin-top:18px">
-        <a class="btn primary" href="videos.html">See all videos</a>
+    </section>
+
+    <!-- Let's Go To Eat — horizontal carousel fed from BLOG_CSV_URL if present -->
+    <section class="glass">
+      <div class="section-head">
+        <h2 class="title">Let’s Go To Eat</h2>
+        <a class="btn" href="blog.html">Read the blog</a>
+      </div>
+      <div class="scroller" id="eat-scroller" role="region" aria-label="Food posts">
+        <button class="scroll-btn prev" data-target="eat-row" aria-label="Scroll left">‹</button>
+        <div class="row" id="eat-row"></div>
+        <button class="scroll-btn next" data-target="eat-row" aria-label="Scroll right">›</button>
       </div>
     </section>
+
+    <!-- Shop — simple horizontal carousel; replace items or wire to a feed later -->
+    <section class="glass">
+      <div class="section-head">
+        <h2 class="title">Shop</h2>
+        <a class="btn" href="shop.html">Visit shop</a>
+      </div>
+      <div class="scroller" id="shop-scroller" role="region" aria-label="Shop items">
+        <button class="scroll-btn prev" data-target="shop-row" aria-label="Scroll left">‹</button>
+        <div class="row" id="shop-row">
+          <!-- sample items; replace images/links/prices as you wish -->
+          <article class="card item">
+            <div class="ratio"><img src="assets/img/shop-tee.jpg" alt="LG2 Neon Tee" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+            <h3 style="margin:.6rem 0 6px;">LG2 Neon Tee</h3>
+            <p class="muted small">$24.99</p>
+            <a class="btn" href="shop.html">Buy</a>
+          </article>
+          <article class="card item">
+            <div class="ratio"><img src="assets/img/shop-cap.jpg" alt="LG2 Cap" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+            <h3 style="margin:.6rem 0 6px;">LG2 Dad Cap</h3>
+            <p class="muted small">$21.99</p>
+            <a class="btn" href="shop.html">Buy</a>
+          </article>
+          <article class="card item">
+            <div class="ratio"><img src="assets/img/shop-sticker.jpg" alt="LG2 Holographic Sticker" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+            <h3 style="margin:.6rem 0 6px;">Holo Sticker</h3>
+            <p class="muted small">$3.99</p>
+            <a class="btn" href="shop.html">Buy</a>
+          </article>
+        </div>
+        <button class="scroll-btn next" data-target="shop-row" aria-label="Scroll right">›</button>
+      </div>
+    </section>
+
   </main>
 
+  <!-- Footer -->
   <footer class="footer">
     <p>© 2025 Let’s Go To… • #LetsGoToCrew</p>
     <div class="socials">
@@ -69,61 +147,141 @@
     </div>
   </footer>
 
+  <!-- Shared config + UI -->
   <script src="assets/js/config.js"></script>
   <script src="assets/js/ui.js"></script>
+
+  <!-- Home logic -->
   <script>
   (async function () {
     const CSV_URL = (window.LG2_CONFIG && LG2_CONFIG.VIDEOS_CSV_URL)
       ? LG2_CONFIG.VIDEOS_CSV_URL
       : "https://docs.google.com/spreadsheets/d/e/2PACX-1vSziN8EwaEBgx5c1BtKRThZycM8JDjxISm_Irsr-ji0eKGoO0POxS2L5rJUUMY496fAO3rm8GutyyTo/pub?gid=0&single=true&output=csv";
+    const BLOG_URL = (window.LG2_CONFIG && LG2_CONFIG.BLOG_CSV_URL) ? LG2_CONFIG.BLOG_CSV_URL : "";
 
+    /* ---------- utils ---------- */
     function parseCSV(t){const r=[];let e=[],n="",q=!1;for(let i=0;i<t.length;i++){const c=t[i],x=t[i+1];if(q){if(c=='"'&&x=='"'){n+='"',i++;}else if(c=='"')q=!1;else n+=c;}else{if(c=='"')q=!0;else if(c==','){e.push(n),n="";}else if(c=='\n'){e.push(n),r.push(e),e=[],n="";}else if(c!='\r')n+=c;}}return(n.length||e.length)&&(e.push(n),r.push(e)),r;}
-    const norm=s=> (s||"").toLowerCase().replace(/\s+/g," ").trim().replace(/[^a-z0-9]/g,"");
-    const find=(h,...k)=>{const H=h.map(norm);for(const x of k){const i=H.indexOf(x);if(i>-1)return i;}return -1;}
+    const norm = s => (s||"").toLowerCase().replace(/\s+/g," ").trim().replace(/[^a-z0-9]/g,"");
+    const find = (h,...k)=>{const H=h.map(norm);for(const x of k){const i=H.indexOf(x);if(i>-1)return i;}return -1;}
+    const esc  = s => (s||"").replace(/"/g,"&quot;");
+    const clean = s => (s||"").trim();
+    const safeDisplay = s => { const t=clean(s); return (t && t.charAt(0) !== '#') ? t : ""; };
+    const by = (prop, fallback=999999999)=> (a,b)=> (Number(a[prop]||fallback)-Number(b[prop]||fallback));
 
+    /* ---------- Featured + latest videos ---------- */
     try{
       const res=await fetch(CSV_URL+(CSV_URL.includes("?")?"&":"?")+"t="+Date.now(),{cache:"no-store"});
-      let tx=await res.text(); tx=tx.replace(/^\uFEFF/,"");
-      const rows=parseCSV(tx); if(!rows.length) throw Error("CSV empty");
+      let text=await res.text(); text=text.replace(/^\uFEFF/,"");
+      const rows=parseCSV(text); if(!rows.length) throw Error("CSV empty");
       const head=rows.shift().map(h=>h.trim());
-      const col={Title:find(head,"title"),ID:find(head,"youtubeid","id"),Published:find(head,"published","date"),Featured:find(head,"featured"),SortKey:find(head,"sortkey")};
-      const val=(r,i)=> i>=0? (r[i]||"").trim() : ""; const b=(r,i)=> val(r,i).toUpperCase()==="TRUE";
-      const items=rows.filter(r=>r.some(x=>(x||"").trim()!==""))
-        .map(r=>({title:val(r,col.Title),id:val(r,col.ID),published:val(r,col.Published),featured:b(r,col.Featured),sortKey:Number(val(r,col.SortKey)||999999999)}))
-        .filter(v=>v.id).sort((a,b)=>a.sortKey-b.sortKey);
+      const col={ Title:find(head,"title"), ID:find(head,"youtubeid","id"), Published:find(head,"published","date"), Featured:find(head,"featured"), SortKey:find(head,"sortkey") };
+      const val=(r,i)=> i>=0 ? (r[i]||"").trim() : "";
+      const bool=(r,i)=> val(r,i).toUpperCase()==="TRUE";
 
-      const featured=items.find(v=>v.featured)||items[0];
+      const items=rows.filter(r=>r.some(x=>(x||"").trim()!==""))
+        .map(r=>({ title:val(r,col.Title), id:val(r,col.ID), published:safeDisplay(val(r,col.Published)), featured:bool(r,col.Featured), sortKey:Number(val(r,col.SortKey)||999999999) }))
+        .filter(v=>v.id)
+        .sort(by('sortKey'));
+
+      const featured = items.find(v=>v.featured) || items[0];
       if(featured){
         document.getElementById("featured").innerHTML = `
           <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center">
             <div class="ratio">
-              <iframe src="https://www.youtube.com/embed/${featured.id}" title="${featured.title.replace(/"/g,"&quot;")}" frameborder="0"
+              <iframe src="https://www.youtube.com/embed/${esc(featured.id)}"
+                title="${esc(featured.title)}" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
             <div>
-              <h1 class="page-title">${featured.title}</h1>
-              ${featured.published && featured.published!=="#NAME?" ? `<p class="muted">Published: ${featured.published}</p>` : ``}
+              <h1 class="page-title">${esc(featured.title)}</h1>
+              ${featured.published ? `<p class="muted">Published: ${esc(featured.published)}</p>` : ``}
               <div style="margin-top:10px"><a class="btn primary" href="videos.html">More videos</a></div>
             </div>
           </div>`;
       }
 
-      const grid=document.getElementById("latest-grid");
-      items.filter(v=>!featured || v.id!==featured.id).slice(0,6).forEach(v=>{
+      const grid = document.getElementById("latest-grid");
+      items.filter(v=>!featured || v.id!==featured.id).slice(0, 6).forEach(v=>{
         const el=document.createElement("article"); el.className="card";
         el.innerHTML = `
-          <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
-            <div class="ratio"><img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title.replace(/"/g,"&quot;")}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
-            <h3 style="margin:.6rem 0 0;color:var(--accent)">${v.title}</h3>
-            ${v.published && v.published!=="#NAME?" ? `<p class="subtitle">${v.published}</p>` : ``}
+          <a href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+            <div class="ratio"><img src="https://img.youtube.com/vi/${esc(v.id)}/hqdefault.jpg" alt="${esc(v.title)}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+            <h3 style="margin:.6rem 0 0;color:var(--accent)">${esc(v.title)}</h3>
+            ${v.published ? `<p class="subtitle">${esc(v.published)}</p>` : ``}
           </a>`;
         grid.appendChild(el);
       });
-    }catch(err){
-      console.error(err);
+    }catch(e){
+      console.error(e);
       document.getElementById("featured").innerHTML='<p class="muted">Sorry—couldn’t load videos right now.</p>';
     }
+
+    /* ---------- Eat carousel (optional Sheet) ---------- */
+    async function loadEat(){
+      const row = document.getElementById('eat-row');
+      row.innerHTML = "";
+      // If you publish a Blog CSV, we use it; otherwise show 3 handpicked cards
+      if (!BLOG_URL){
+        row.appendChild(cardEat("assets/img/lg2-og-1200x630.jpg","EPCOT Best Bites","Read","blog.html"));
+        row.appendChild(cardEat("assets/img/lg2-icon-512.png","Universal Food Guide","Watch","videos.html"));
+        row.appendChild(cardEat("assets/img/lg2-icon-512.png","Boo-To-You Snacks","Read","blog.html"));
+        return;
+      }
+      try{
+        const res=await fetch(BLOG_URL+(BLOG_URL.includes("?")?"&":"?")+"t="+Date.now(),{cache:"no-store"});
+        let text=await res.text(); text=text.replace(/^\uFEFF/,"");
+        const rows=parseCSV(text); if(!rows.length) throw Error("CSV empty");
+        const head=rows.shift().map(h=>h.trim());
+        const c={ Title:find(head,"title"), Date:find(head,"date"), Image:find(head,"imageurl","image"), YouTubeID:find(head,"youtubeid"), Excerpt:find(head,"excerpt"), Slug:find(head,"slug"), External:find(head,"externalurl","url"), SortKey:find(head,"sortkey") };
+        const val=(r,i)=> i>=0 ? (r[i]||"").trim() : "";
+        const items=rows.filter(r=>r.some(x=>(x||"").trim()!==""))
+          .map(r=>({ title:val(r,c.Title), date:safeDisplay(val(r,c.Date)), img:val(r,c.Image), ytid:val(r,c.YouTubeID), ex:val(r,c.Excerpt), slug:val(r,c.Slug), url:val(r,c.External), sortKey:Number(val(r,c.SortKey)||999999999) }))
+          .filter(p=>p.title)
+          .sort(by('sortKey'))
+          .slice(0,10);
+
+        items.forEach(p=>{
+          const href = p.url || (p.slug ? `${encodeURIComponent(p.slug)}.html` : "blog.html");
+          const card=document.createElement('article'); card.className="card item";
+          const media = p.ytid
+            ? `<div class="ratio"><img src="https://img.youtube.com/vi/${esc(p.ytid)}/hqdefault.jpg" alt="${esc(p.title)}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>`
+            : `<div class="ratio"><img src="${esc(p.img||'assets/img/lg2-og-1200x630.jpg')}" alt="${esc(p.title)}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>`;
+          card.innerHTML = `
+            ${media}
+            <h3 style="margin:.6rem 0 6px;">${esc(p.title)}</h3>
+            ${p.date ? `<p class="muted small" style="margin:0 0 8px;">${esc(p.date)}</p>` : ""}
+            <a class="btn" href="${href}" ${p.url ? 'target="_blank" rel="noopener"' : ''}>Read</a>
+          `;
+          row.appendChild(card);
+        });
+      }catch(e){
+        console.error("Eat feed failed; showing fallback.", e);
+        row.appendChild(cardEat("assets/img/lg2-og-1200x630.jpg","Latest picks on the blog","Read","blog.html"));
+      }
+    }
+    function cardEat(img,title,cta,href){
+      const el=document.createElement('article'); el.className='card item';
+      el.innerHTML=`
+        <div class="ratio"><img src="${esc(img)}" alt="${esc(title)}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+        <h3 style="margin:.6rem 0 6px;">${esc(title)}</h3>
+        <a class="btn" href="${href}">${esc(cta)}</a>
+      `;
+      return el;
+    }
+    loadEat();
+
+    /* ---------- Carousel controls ---------- */
+    document.querySelectorAll('.scroll-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const rowId = btn.dataset.target;
+        const row = document.getElementById(rowId);
+        if (!row) return;
+        const amount = Math.round(row.clientWidth*0.9);
+        row.scrollBy({ left: btn.classList.contains('next') ? amount : -amount, behavior:'smooth' });
+      });
+    });
+
   })();
   </script>
 </body>
